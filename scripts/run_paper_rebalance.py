@@ -35,6 +35,10 @@ def _inside_market_time_gate(window_minutes: int) -> bool:
     return gate_start <= now <= gate_end
 
 
+def build_client_order_id(run_id: str, index: int, symbol: str) -> str:
+    return f"qbrppo-{run_id}-{index:02d}-{symbol}"[:48]
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run QSentia BR-PPO macro rotation Alpaca paper rebalance.")
     parser.add_argument("--submit", action="store_true", help="Submit orders to Alpaca paper. Default is dry-run.")
@@ -53,12 +57,17 @@ def main() -> int:
     args = parse_args()
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
+    timestamp_ny = datetime.now(ZoneInfo("America/New_York"))
+    timestamp_utc = datetime.now(ZoneInfo("UTC"))
+    run_id = timestamp_utc.strftime("%Y%m%dT%H%M%SZ")
 
     if args.market_time_gate and not _inside_market_time_gate(args.market_time_window_minutes):
         payload = {
             "status": "skipped",
             "reason": "outside 9 AM America/New_York market-time gate",
-            "timestamp": datetime.now(ZoneInfo("America/New_York")).isoformat(),
+            "timestamp": timestamp_ny.isoformat(),
+            "timestamp_utc": timestamp_utc.isoformat(),
+            "run_id": run_id,
         }
         (out_dir / "latest_signal.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
         print(json.dumps(payload, indent=2))
@@ -102,7 +111,7 @@ def main() -> int:
         if client is None:
             raise RuntimeError("--submit requires Alpaca credentials and live Alpaca price fetch.")
         for index, order in enumerate(orders, start=1):
-            client_order_id = f"{cfg.strategy_id}-{signal.asof}-{index}"
+            client_order_id = build_client_order_id(run_id, index, order.symbol)
             submitted_orders.append(
                 client.submit_market_order(
                     symbol=order.symbol,
@@ -115,12 +124,11 @@ def main() -> int:
     order_frame = orders_to_frame(orders)
     order_frame.to_csv(out_dir / "latest_orders.csv", index=False)
 
-    timestamp_ny = datetime.now(ZoneInfo("America/New_York"))
-    timestamp_utc = datetime.now(ZoneInfo("UTC"))
     payload = {
         "status": "submitted" if submit else "dry_run",
         "strategy_id": cfg.strategy_id,
         "asof": signal.asof,
+        "run_id": run_id,
         "timestamp": timestamp_ny.isoformat(),
         "timestamp_utc": timestamp_utc.isoformat(),
         "equity": equity,

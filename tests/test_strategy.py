@@ -6,6 +6,7 @@ import pandas as pd
 from qsentia_brppo_macro_alpaca.config import load_strategy_config
 from qsentia_brppo_macro_alpaca.rebalance import build_rebalance_plan
 from qsentia_brppo_macro_alpaca.strategy import compute_signal
+from scripts.run_paper_rebalance import build_client_order_id
 
 
 def _prices() -> pd.DataFrame:
@@ -61,3 +62,12 @@ def test_build_rebalance_plan_uses_thresholds_and_caps() -> None:
     assert all(order.side == "buy" for order in orders)
     assert all(order.notional <= 1_000_000.0 for order in orders)
     assert isinstance(warnings, list)
+
+
+def test_client_order_id_is_unique_and_short() -> None:
+    first = build_client_order_id("20260522T182455Z", 1, "SMH")
+    second = build_client_order_id("20260522T182456Z", 1, "SMH")
+
+    assert first != second
+    assert len(first) <= 48
+    assert first.endswith("-01-SMH")
