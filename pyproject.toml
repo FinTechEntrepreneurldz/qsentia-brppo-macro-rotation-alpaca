@@ -1,0 +1,15 @@
+[project]
+name = "qsentia-brppo-macro-rotation-alpaca"
+version = "0.1.0"
+description = "QSentia BR-PPO macro rotation paper-trading engine for Alpaca."
+requires-python = ">=3.10"
+dependencies = [
+  "numpy",
+  "pandas",
+  "requests",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
