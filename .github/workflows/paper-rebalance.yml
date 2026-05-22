@@ -2,6 +2,12 @@ name: Alpaca Paper Rebalance
 
 on:
   workflow_dispatch:
+    inputs:
+      bypass_time_gate:
+        description: "Submit immediately instead of requiring the 9 AM New York gate."
+        required: false
+        default: false
+        type: boolean
   schedule:
     - cron: "0 13,14 * * 1-5"
 
@@ -34,7 +40,12 @@ jobs:
         run: pytest
 
       - name: Paper rebalance
-        run: PYTHONPATH=src python scripts/run_paper_rebalance.py --submit --market-time-gate
+        run: |
+          if [ "${{ github.event.inputs.bypass_time_gate }}" = "true" ]; then
+            PYTHONPATH=src python scripts/run_paper_rebalance.py --submit
+          else
+            PYTHONPATH=src python scripts/run_paper_rebalance.py --submit --market-time-gate
+          fi
 
       - name: Commit dashboard logs
         if: always()
