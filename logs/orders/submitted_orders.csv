@@ -1,0 +1,3 @@
+timestamp_utc,date,symbol,side,notional,qty,status,id,client_order_id,submitted
+2026-05-22T18:50:49.002754+00:00,2026-05-22,SMH,buy,128545.59,,pending_new,8d446778-b39d-42a0-b53e-ac14f1814685,qbrppo-20260522T185049Z-01-SMH,true
+2026-05-22T18:50:49.002754+00:00,2026-05-22,XLK,buy,195831.84,,pending_new,49402815-3f2d-4c9e-9a86-dee8f7cade7a,qbrppo-20260522T185049Z-02-XLK,true

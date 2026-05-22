@@ -1,0 +1,2 @@
+timestamp_utc,date,symbol,qty,market_value,current_price,unrealized_pl,side
+2026-05-22T18:50:49.002754+00:00,2026-05-22,SGOV,6713.743615224,675570.451282,100.625,-33.568718,long

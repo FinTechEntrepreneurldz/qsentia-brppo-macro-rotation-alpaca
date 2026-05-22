@@ -1,0 +1,2 @@
+timestamp_utc,date,net_liquidation,net_liquidation_value,portfolio_value,equity,cash,buying_power,account_status,source
+2026-05-22T18:50:49.002754+00:00,2026-05-22,999966.43,999966.43,999966.43,999966.43,324395.98,1324362.41,connected,alpaca_account_equity

@@ -1,0 +1,3 @@
+symbol,side,notional,qty,current_weight,target_weight,reason
+SMH,buy,128545.59,221.97094,0.0,0.1285499065766201,rebalance_to_target
+XLK,buy,195831.84,1081.704819,0.0,0.19583841469054755,rebalance_to_target
