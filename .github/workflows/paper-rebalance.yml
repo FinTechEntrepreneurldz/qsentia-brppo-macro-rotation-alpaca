@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: "0 13,14 * * 1-5"
 
+permissions:
+  contents: write
+
 jobs:
   paper-rebalance:
     runs-on: ubuntu-latest
@@ -33,10 +36,22 @@ jobs:
       - name: Paper rebalance
         run: PYTHONPATH=src python scripts/run_paper_rebalance.py --submit --market-time-gate
 
+      - name: Commit dashboard logs
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f logs
+          if git diff --cached --quiet; then
+            echo "No dashboard log changes to commit."
+          else
+            git commit -m "Update Alpaca paper dashboard logs"
+            git push
+          fi
+
       - name: Upload logs
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: qsentia-brppo-macro-alpaca-logs
           path: logs/
-

@@ -13,6 +13,7 @@ import pandas as pd
 from qsentia_brppo_macro_alpaca.alpaca import AlpacaClient, AlpacaSettings
 from qsentia_brppo_macro_alpaca.config import load_strategy_config
 from qsentia_brppo_macro_alpaca.data import load_or_fetch_fred, read_price_file
+from qsentia_brppo_macro_alpaca.dashboard_logs import write_dashboard_logs
 from qsentia_brppo_macro_alpaca.rebalance import build_rebalance_plan, orders_to_frame
 from qsentia_brppo_macro_alpaca.strategy import compute_signal
 
@@ -114,11 +115,14 @@ def main() -> int:
     order_frame = orders_to_frame(orders)
     order_frame.to_csv(out_dir / "latest_orders.csv", index=False)
 
+    timestamp_ny = datetime.now(ZoneInfo("America/New_York"))
+    timestamp_utc = datetime.now(ZoneInfo("UTC"))
     payload = {
         "status": "submitted" if submit else "dry_run",
         "strategy_id": cfg.strategy_id,
         "asof": signal.asof,
-        "timestamp": datetime.now(ZoneInfo("America/New_York")).isoformat(),
+        "timestamp": timestamp_ny.isoformat(),
+        "timestamp_utc": timestamp_utc.isoformat(),
         "equity": equity,
         "target_weights": signal.target_weights,
         "selected_assets": signal.selected_assets,
@@ -132,7 +136,8 @@ def main() -> int:
         "alpaca_account_id": account.get("id") if account else None,
         "paper_base_url": os.getenv("APCA_API_BASE_URL", "https://paper-api.alpaca.markets"),
     }
-    stamp = datetime.now(ZoneInfo("America/New_York")).strftime("%Y%m%d_%H%M%S")
+    write_dashboard_logs(out_dir, payload, signal, orders, submitted_orders, positions, account)
+    stamp = timestamp_ny.strftime("%Y%m%d_%H%M%S")
     (out_dir / "latest_signal.json").write_text(json.dumps(payload, indent=2, default=_json_default), encoding="utf-8")
     (out_dir / f"rebalance_{stamp}.json").write_text(json.dumps(payload, indent=2, default=_json_default), encoding="utf-8")
     print(json.dumps({k: payload[k] for k in ["status", "asof", "equity", "target_weights", "submitted_order_count", "warnings"]}, indent=2))
