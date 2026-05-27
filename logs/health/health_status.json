@@ -1,22 +1,22 @@
 {
-  "updated_at_utc": "2026-05-26T20:02:37.363655+00:00",
-  "date": "2026-05-26",
+  "updated_at_utc": "2026-05-27T20:04:01.943608+00:00",
+  "date": "2026-05-27",
   "overall_status": "connected",
   "account_status": "connected",
-  "net_liquidation": 1009648.51,
-  "net_liquidation_value": 1009648.51,
-  "portfolio_value": 1009648.51,
-  "equity": 1009648.51,
+  "net_liquidation": 1007550.89,
+  "net_liquidation_value": 1007550.89,
+  "portfolio_value": 1007550.89,
+  "equity": 1007550.89,
   "source": "alpaca_account_equity",
   "selected_assets": [
     "SMH",
     "XLK"
   ],
   "target_weights": {
-    "SGOV": 0.6803012634332355,
-    "XLK": 0.19352254735757538,
-    "SMH": 0.12617618920918908
+    "SGOV": 0.679660712348427,
+    "XLK": 0.1944395812906333,
+    "SMH": 0.12589970636093975
   },
-  "submitted_order_count": 3,
+  "submitted_order_count": 2,
   "paper_base_url": "https://paper-api.alpaca.markets"
 }
