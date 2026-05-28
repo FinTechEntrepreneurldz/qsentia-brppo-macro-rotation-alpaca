@@ -1,3 +1,3 @@
 timestamp_utc,date,symbol,side,notional,qty,status,id,client_order_id,submitted
-2026-05-27T20:04:01.943608+00:00,2026-05-27,SGOV,sell,2128.91,,accepted,aaa6e0de-1f51-4018-8c1e-64aef0708146,qbrppo-20260527T200401Z-01-SGOV,true
-2026-05-27T20:04:01.943608+00:00,2026-05-27,XLK,buy,1375.94,,accepted,a7c161cd-621e-49a0-92b6-9b3028487386,qbrppo-20260527T200401Z-02-XLK,true
+2026-05-28T20:32:26.692945+00:00,2026-05-28,SGOV,sell,1570.59,,accepted,dd540f1b-a9b7-4ff1-abff-dfcf8f5423b9,qbrppo-20260528T203226Z-01-SGOV,true
+2026-05-28T20:32:26.692945+00:00,2026-05-28,SMH,buy,2838.29,,accepted,1de32284-189d-49f7-97bb-0c04ff236ebc,qbrppo-20260528T203226Z-02-SMH,true
