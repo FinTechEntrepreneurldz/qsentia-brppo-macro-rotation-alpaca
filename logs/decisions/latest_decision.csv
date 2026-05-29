@@ -1,2 +1,2 @@
 timestamp_utc,date,action,signal,selected_assets,target_weights_json,orders_count,submitted_order_count,portfolio_value,net_liquidation,account_status,warnings
-2026-05-28T20:32:26.692945+00:00,2026-05-28,submitted,macro_rotation,SMH|XLK,"{""SGOV"":0.6753016185573684,""SMH"":0.1286180954114709,""XLK"":0.19608028603116073}",2,2,1011855.01,1011855.01,connected,
+2026-05-29T20:04:51.020529+00:00,2026-05-29,submitted,macro_rotation,SMH|XLK,"{""SGOV"":0.6737771073788985,""SMH"":0.1292709341822748,""XLK"":0.19695195843882662}",2,2,1015527.23,1015527.23,connected,
